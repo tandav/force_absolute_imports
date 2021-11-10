@@ -1,5 +1,5 @@
 # force_absolute_imports
-simple tool that ensures that you use only absolute imports
+simple tool that checks only absolute imports are used
 
 ```py
 # install
