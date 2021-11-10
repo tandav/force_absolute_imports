@@ -2,23 +2,30 @@ from pathlib import Path
 import re
 
 
-def check_line(line: str):
-    if re.match(r'from\s*\.', line):
-        raise ValueError(1)
+def only_absolute_line(line: str) -> bool:
+    return not re.match(r'from\s*\.', line)
 
 
-def check_file(file):
+def only_absolute_file(file) -> bool:
     file = Path(file)
     if file.suffix != '.py':
-        raise ValueError(f'{file} not a python file')
+        print(f'{file} not a python file')
+        raise SystemExit(2)
+
+    only_absolute = True
+
     with open(file) as f:
         for linenumber, line in enumerate(f, start=1):
-            try:
-                check_line(line)
-            except ValueError:
+            if not only_absolute_line(line):
                 print(f'relative import: {file}:{linenumber} {line.strip()}')
+                only_absolute = False
+
+    return only_absolute
 
 
-def check_folder(folder: Path):
+def only_absolute_folder(folder: Path) -> int:
+    only_absolute = True
     for file in Path(folder).rglob('*.py'):
-        check_file(file)
+        if not only_absolute_file(file):
+            only_absolute = False
+    return only_absolute
