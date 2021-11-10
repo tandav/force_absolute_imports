@@ -10,7 +10,7 @@ def check_line(line: str):
 def check_file(file):
     file = Path(file)
     if file.suffix != '.py':
-        raise ValueError('not a python file')
+        raise ValueError(f'{file} not a python file')
     with open(file) as f:
         for linenumber, line in enumerate(f, start=1):
             try:

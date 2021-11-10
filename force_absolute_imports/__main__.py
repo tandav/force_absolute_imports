@@ -14,4 +14,4 @@ if __name__ == '__main__':
         elif p.is_dir():
             force_absolute_imports.check_folder(p)
         else:
-            raise ValueError(f'{p}: is not a file or folder')
+            raise ValueError(f'{p}: is not exists or not a file or folder')
