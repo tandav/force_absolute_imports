@@ -23,7 +23,7 @@ def only_absolute_file(file) -> bool:
     return only_absolute
 
 
-def only_absolute_folder(folder: Path) -> int:
+def only_absolute_folder(folder: Path) -> bool:
     only_absolute = True
     for file in Path(folder).rglob('*.py'):
         if not only_absolute_file(file):
