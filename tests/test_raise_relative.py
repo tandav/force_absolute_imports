@@ -12,6 +12,8 @@ import pytest
     'from .foo.bar import x',
     'from.foo.bar import x',
     'from ..foo.bar import x',
+    '    from . import x',
+    '    from ..foo import x',
 ))
 def test_raise_relative(line):
     assert not force_absolute_imports.only_absolute_line(line)
@@ -25,6 +27,7 @@ def test_raise_relative(line):
     'import lib as renamed',
     'import lib.foo'
     'import lib.foo as renamed'
+    '    from lib import x',
 ))
 def test_pass_absolute(line):
     assert force_absolute_imports.only_absolute_line(line)

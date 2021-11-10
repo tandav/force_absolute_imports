@@ -3,7 +3,7 @@ import re
 
 
 def only_absolute_line(line: str) -> bool:
-    return not re.match(r'from\s*\.', line)
+    return not re.match(r'\s*from\s*\.', line)
 
 
 def only_absolute_file(file) -> bool:
