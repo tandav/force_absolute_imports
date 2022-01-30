@@ -1,4 +1,4 @@
 python = python3.9
 
 test:
-	$(python) -m pytest -s -v tests
+	$(python) -m pytest -v tests

@@ -1,5 +1,6 @@
-import force_absolute_imports
 import pytest
+
+import force_absolute_imports
 
 
 @pytest.mark.parametrize('line', (
@@ -31,3 +32,16 @@ def test_raise_relative(line):
 ))
 def test_pass_absolute(line):
     assert force_absolute_imports.only_absolute_line(line)
+
+
+@pytest.mark.xfail
+def test_bad_file(capsys):
+    assert not force_absolute_imports.only_absolute_file('unfixed_src/bad.py')
+    out, err = capsys.readouterr()
+    assert out == 'relative import: unfixed_src/bad.py:1 from .x import foo\n'
+
+
+def test_good_file(capsys):
+    assert force_absolute_imports.only_absolute_file('unfixed_src/good.py')
+    out, err = capsys.readouterr()
+    assert out == ''
