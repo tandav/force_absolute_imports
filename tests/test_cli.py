@@ -39,5 +39,5 @@ def source_dir():
 
 
 def test_fix_inplace(source_dir):
-    subprocess.run((sys.executable, '-m', 'force_absolute_imports', '--in-place', source_dir))
+    assert subprocess.run((sys.executable, '-m', 'force_absolute_imports', '--in-place', source_dir)).returncode == 0
     assert force_absolute_imports.only_absolute_folder(source_dir)

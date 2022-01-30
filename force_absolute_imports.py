@@ -7,14 +7,13 @@ from typing import Optional
 
 def parse(line: str):
     """here s means spaces"""
-    return re.match(r'(?P<s0>\s*)from(?P<s1>\s*)(?P<dots>\.+)(?P<s2>\s*)(?P<rest>.*)', line).groupdict()
+    return re.match(r'(?P<s0>\s*)from(?P<s1>\s*)(?P<dots>\.+)(?P<s2>\s*)(?P<rest>.*)', line, re.DOTALL).groupdict()
 
 
-def fix(file: Path, line: str, root_dir: Optional[Path] = None) -> str:
+def fix(file: Path, line: str) -> str:
     p = parse(line)
     if not p['s1']:
         p['s1'] = ' '
-
     module = '.'.join(file.parents[len(p['dots']) - 1].parts)
     out = f'{p["s0"]}from{p["s1"]}'
     if p['rest'].startswith('import '):
@@ -45,8 +44,8 @@ def only_absolute_file(file, root_dir: Optional[Path] = None, in_place: bool = F
     with open(file) as f:
         for linenumber, line in enumerate(f, start=1):
             if not only_absolute_line(line):
-                line_fixed = fix(file, line, root_dir)
-                print(f'relative import | {file}:{linenumber} {line.strip()} | fix -> | {line_fixed} | {root_dir} |')
+                line_fixed = fix(file, line)
+                print(f'relative import | {file}:{linenumber} {line.rstrip()} | fix -> | {line_fixed.rstrip()} | {root_dir} |')
                 only_absolute = False
                 if in_place:
                     line = line_fixed
@@ -57,6 +56,8 @@ def only_absolute_file(file, root_dir: Optional[Path] = None, in_place: bool = F
         with open(file, 'w') as f:
             f.write(fixed_str.getvalue())
 
+    if in_place:
+        return True
     return only_absolute
 
 
