@@ -1,0 +1,5 @@
+- id: force-absolute-imports
+  name: force-absolute-imports
+  entry: force_absolute_imports --in-place
+  language: python
+  types_or: [python, directory]
