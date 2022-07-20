@@ -1,4 +1,7 @@
-python = python3.9
-
+.PHONY: test
 test:
-	$(python) -m pytest -v tests
+	python -m pytest -v tests
+
+.PHONY: bump2version
+bump2version:
+	bump2version $(STEP)
